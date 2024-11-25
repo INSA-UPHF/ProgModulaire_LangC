@@ -59,9 +59,7 @@ Nombre de mots: 3
 Application: Mon Application C (Version: 1.0.0)
 ```
 
----
-
-### Explications
+## Description des fichiers
 
 1. **math_utils.c / .h** :
    - Définit les fonctions mathématiques (addition, soustraction).
@@ -76,4 +74,47 @@ Application: Mon Application C (Version: 1.0.0)
 
 4. **main.c** :
    - Fichier principal qui utilise les fonctions et constantes des autres modules.
+---
+## explications  #ifndef, #define, et #endif
+Ces directives sont des préprocesseurs en C/C++ utilisés pour éviter les problèmes de double inclusion d'un fichier d'en-tête dans un programme. 
+C'est une technique connue sous le nom de gardes d'inclusion (inclusion guards).
+
+En utilisant les directives **`#ifndef`**, **`#define`**, et **`#endif`**, vous empêchez qu'un fichier d'en-tête soit traité plusieurs fois par le compilateur.
+
+Voici comment cela fonctionne ligne par ligne :
+
+#### Code avec gardes d'inclusion :
+```c
+#ifndef STRING_UTILS_H   // Si STRING_UTILS_H n'est PAS encore défini...
+#define STRING_UTILS_H   // Définir STRING_UTILS_H (pour signaler que ce fichier a été inclus)
+
+// Déclarations de fonctions ou de constantes
+void capitalize_words(char *sentence);
+int count_words(const char *sentence);
+
+#endif // STRING_UTILS_H
+```
+
+### Explications des directives :
+1. **`#ifndef STRING_UTILS_H`** :
+   - "Si `STRING_UTILS_H` (une macro) **n'est pas encore défini**".
+   - Si c'est la première fois que ce fichier est inclus, cette condition est vraie.
+
+2. **`#define STRING_UTILS_H`** :
+   - Définit la macro `STRING_UTILS_H` pour indiquer que ce fichier a été inclus.
+   - Lors des inclusions suivantes, cette macro sera déjà définie et le code entre `#ifndef` et `#endif` sera ignoré.
+
+3. **`#endif`** :
+   - Marque la fin du bloc conditionnel commencé par `#ifndef`.
+
+
+
+### Résultat :
+Si le fichier **`string_utils.h`** est inclus plusieurs fois dans le programme :
+1. Lors de la première inclusion, `STRING_UTILS_H` n'existe pas, donc le contenu entre `#ifndef` et `#endif` est compilé.
+2. Lors des inclusions suivantes, `STRING_UTILS_H` existe déjà, donc le contenu est ignoré par le préprocesseur.
+
+Cela évite les erreurs de redéfinition.
+---
+
 
